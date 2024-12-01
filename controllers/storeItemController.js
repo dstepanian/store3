@@ -58,9 +58,16 @@ const getStoreItems = async (req,res,next) => {
 const updateStoreItem = async (req,res,next) => {
     try {
         const { id } =req.params
-        console.log(req.params);
-        const updatedItem = await StoreItem.findByIdAndUpdate(id, req.body, { new: true })
-        res.status(200).json({ success:true, data: updatedItem })
+        const {price, description} = req.body
+
+        const storeItem = await StoreItem.findById(id)
+        storeItem.price = price
+        storeItem.description = description
+        await storeItem.save()
+        console.log(storeItem);
+
+
+        res.status(200).json({ success:true, data: 4 })
     } catch (e) {
         console.log(e);
         res.status(500).json({ success: false, message: 'Failed to update the product' })
