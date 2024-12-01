@@ -55,4 +55,27 @@ const getStoreItems = async (req,res,next) => {
     }
 }
 
-module.exports = { createStoreItem, getStoreItems }
+const updateStoreItem = async (req,res,next) => {
+    try {
+        const { id } =req.params
+        console.log(req.params);
+        const updatedItem = await StoreItem.findByIdAndUpdate(id, req.body, { new: true })
+        res.status(200).json({ success:true, data: updatedItem })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ success: false, message: 'Failed to update the product' })
+    }
+}
+
+const deleteStoreItem = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        await StoreItem.findByIdAndDelete(id)
+        res.status(200).json({ success: true, message:'Product successfully deleted' })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ success:false, message:'Failed to delete the product' })
+    }
+}
+
+module.exports = { createStoreItem, getStoreItems, updateStoreItem, deleteStoreItem }
