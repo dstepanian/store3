@@ -7,7 +7,7 @@ const addToCart = async (req, res, next) => {
         console.log(cart);
         if (!cart) {
             const cart = new Cart({ userId: req.user.id })
-
+            
 
             await cart.save()
             console.log(cart)
